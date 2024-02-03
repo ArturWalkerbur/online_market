@@ -1,0 +1,13 @@
+.list_div{
+	/*width: 1075px;
+	height: 374px;*/
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+
+}
+
+
+h1{
+	margin-left: 40px;
+}

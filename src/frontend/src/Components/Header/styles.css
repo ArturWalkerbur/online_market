@@ -1,0 +1,60 @@
+.header{
+    margin-top: 10px;
+    display: flex;
+    background-color: #BDBCBC;
+}
+
+.logoimg{
+    width: 22%;
+    margin-left: 60px;
+}
+
+.logo{
+    display: flex;
+}
+
+.title{
+    margin-left: -50px;
+    text-transform: uppercase;
+    font-size: 32px;
+}
+
+.Zoo{
+    color: yellow;
+}
+
+.menu-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: right;
+
+}
+
+.menu{
+    list-style-type: none;
+    padding-right: 20px;
+    padding-top: 8px;
+    border-color: white;
+}
+
+.menu-list{
+    display: inline-block;
+
+
+}
+
+.menu-items{
+    display: block;
+    font-size: 20px;
+    color: orangered;
+    padding: 0 12px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.titleLinkTheZoo{
+    outline: none;
+    text-decoration: none;
+    color: black;
+}

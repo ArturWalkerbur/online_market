@@ -1,0 +1,48 @@
+.catalog{
+	margin-left: 80px;
+	margin-right: 20px;
+}
+
+.titleCatalog{
+	font-size: 40px;
+	margin-bottom: 80px;
+}
+
+.row{
+	margin-right: 30px;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 30px;
+	
+}
+
+.categoryimg{
+	height: 150px;
+	vertical-align: bottom;
+	align-items: center;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.categoryTitle3{
+	font-size: 24px;
+	margin-left: 6px;
+
+}
+
+.categoryTitle2{
+	width: 160px; 
+	font-size: 24px;
+	margin-left: 24px;
+	text-align: center;
+
+}
+
+.linkin{
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+  color: darkorange;
+}
