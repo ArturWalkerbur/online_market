@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import Header from '../Components/Header/Header';
-import Catalog from '../Components/Catalog/Catalog';
 import Footer from '../Components/Footer/Footer';
+import Cart from '../Components/Cart/Cart';
 
 
-function Cartpage(props) {
+function Home(props) {
 
 	return (
 		<div className="reactsite">
-
+		
 		<Header links={props.links}/>
-		<Catalog />
+		<Cart />
 		<Footer />
-		</div>
 
+		</div>
 		
 	);
 }
 
-export default Cartpage;
+export default Home;

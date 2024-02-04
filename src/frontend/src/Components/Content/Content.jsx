@@ -1,23 +1,17 @@
-import React, { Component, useState, useEffect  } from 'react';
+import React, { Component, useState, useContext} from 'react';
 import { useNavigate } from "react-router-dom";
 import style from './style.css';
 import ProductCard from '../ProductCard/ProductCard';
+import {CustomContext} from "../../utils/Context";
 
 
 function Content() {
 
   	const navigate = useNavigate();
 
-  	const [data, setData] = useState(null);
+  	const {data} = useContext(CustomContext);
 
-  	useEffect(() => {
-    fetch('http://localhost:8000/api/guest/getAllProducts')
-      .then(response => response.json()) 
-      .then(result => setData(result)) 
-      .catch(error => console.error('Error fetching data:', error));
-  	}, []);
-
-  	console.log(data);
+  	
 
 
 	return (
