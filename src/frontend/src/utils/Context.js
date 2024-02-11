@@ -10,6 +10,7 @@ export const Context = (props) => {
 	const [cart, setCart] = useState([]);
 
 
+
 	useEffect(() => {
 	    fetch('http://localhost:8000/api/guest/getAllProducts')
 	      .then(response => response.json()) 
@@ -27,8 +28,8 @@ export const Context = (props) => {
 	}, []);
 
 
-  	console.log(data);
-  	console.log(dataCatalog);
+  	//console.log(data);
+  	//console.log(dataCatalog);
 
 
 	const addInCart = (product) => {
@@ -36,12 +37,47 @@ export const Context = (props) => {
 		if(cart.includes(product)){
 			// Ничего не делаем, так как продукт уже в корзине
 		} else {
-			setCart(prev => [...prev, product]);	
+			setCart(prev => [...prev, {...product, count: 1}]);	
+			console.log(cart);
 		}
 
 	}
 
+	const plusOneInCart = (id) => {
 
+		setCart(prev => prev.map(item => {
+			if(item.id == id){
+				return {...item, count: item.count + 1}
+			}
+			return item
+		}));
+
+	}
+
+	const minusOneFromCart = (id) => {
+
+		setCart(prev => prev.map(item => {
+			if(item.id == id && item.count > 1){
+				return {...item, count: item.count - 1}
+			}
+			return item
+		}));
+
+	}
+
+	const removeOneFromCart = (id) => {
+
+		const updatedCart = cart.filter((item) => item.id !== id);
+
+		setCart(updatedCart);
+
+	}
+
+	const handleSubmitOrder = (e, order) => {
+	  	e.preventDefault();
+	    
+	    console.log(order);
+	};
   	
 
 
@@ -52,8 +88,11 @@ export const Context = (props) => {
 		data,
 		dataCatalog,
 		cart,
-		addInCart
-
+		addInCart,
+		plusOneInCart,
+		minusOneFromCart,
+		removeOneFromCart,
+		handleSubmitOrder
 	}
 
 	return <CustomContext.Provider value={value}>

@@ -3,13 +3,22 @@ import { useNavigate, Link } from "react-router-dom";
 import style from './style.css';
 import {CustomContext} from "../../utils/Context";
 import { BsArrowLeft } from "react-icons/bs";
+import OrderForm from "./OrderForm";
 
 function Cart() {
 
 
-	const {cart} = useContext(CustomContext);
+	const {cart, plusOneInCart, minusOneFromCart, removeOneFromCart} = useContext(CustomContext);
 
 	console.log(cart);
+
+	var totalCount = 0;
+	var totalPrice = 0;
+
+	cart.map(item => {
+		totalCount += item.count;
+		totalPrice += item.count * item.price;
+	})
 
 
 	return (
@@ -36,10 +45,10 @@ function Cart() {
 				                                <div className="row text-muted text-name">{item.name}</div>
 				                                <div className="row text-description">{item.description}</div>
 				                            </div>
-				                            <div className="col">
-				                                <a href="#">-</a><a href="#" className="border">1</a><a href="#">+</a>
+				                            <div className="col count">
+				                            	<button className="minus" onClick={() => minusOneFromCart(item.id)}>-</button><p className="border">{item.count}</p><button onClick={() => plusOneInCart(item.id)} className="plus">+</button>	
 				                            </div>
-				                            <div className="col">₸ {item.price} <span className="close">&#10005;</span></div>
+				                            <div className="col product-price"><b>₸ {item.price * item.count} </b><button className="close" onClick={() => removeOneFromCart(item.id)}>&#10005;</button></div>
 				                        </div>
 				                    </div>	
 		                    	</div>
@@ -50,23 +59,16 @@ function Cart() {
 		                    <div className="back-to-shop"><Link to="/"><BsArrowLeft /><span className="text-muted text-bootom"> Назад к товарам</span></Link></div>
 		                </div>
 		                <div className="col-md-4 summary">
-		                    <div><h5><b>Итог</b></h5></div>
+		                    <div><h3 className="summary-title"><b>Итог</b></h3></div>
 		                    <hr />
-		                    <div className="row">
-		                        <div className="col" style={{ paddingLeft: 0 }}>ТОВАРЫ: {cart.length}</div>
-		                        <div className="col text-right">&euro; 132.00</div>
+		                    <div className="row final-assessment">
+		                        <div className="col" style={{ paddingLeft: 0 }}><div>ТОВАРЫ: {cart.length}</div>Количество: {totalCount}</div>
+		                        <div className="col text-right">₸ {totalPrice}</div>
 		                    </div>
-		                    <form>
-		                        <p>SHIPPING</p>
-		                        <select><option className="text-muted">Standard-Delivery- &euro;5.00</option></select>
-		                        <p>GIVE CODE</p>
-		                        <input id="code" placeholder="Enter your code" />
-		                    </form>
-		                    <div className="row" style={{ borderTop: '1px solid rgba(0, 0, 0, .1)', padding: '2vh 0' }}>
-		                        <div className="col">TOTAL PRICE</div>
-		                        <div className="col text-right">&euro; 137.00</div>
-		                    </div>
-		                    <button className="btnCart">CHECKOUT</button>
+		                    <OrderForm />
+		                    
+
+
 		                </div>
 		            </div>
 		            
