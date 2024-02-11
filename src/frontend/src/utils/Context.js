@@ -75,7 +75,24 @@ export const Context = (props) => {
 
 	const handleSubmitOrder = (e, order) => {
 	  	e.preventDefault();
-	    
+	    /*try {
+		    const response = await fetch('url_вашего_сервера', {
+		      method: 'POST',
+		      headers: {
+		        'Content-Type': 'application/json'
+		      },
+		      body: JSON.stringify(order)
+		    });
+
+		    if (response.ok) {
+		      const data = await response.json();
+		      console.log(data);
+		    } else {
+		      console.error('Ошибка при отправке заказа:', response.statusText);
+		    }
+		} catch (error) {
+		    console.error('Ошибка при готовке отправке:', error.message);
+		}*/
 	    console.log(order);
 	};
   	
