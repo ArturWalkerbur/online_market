@@ -2,9 +2,11 @@ package com.erasil_production.online_market.controllers;
 
 import com.erasil_production.online_market.dto.*;
 import com.erasil_production.online_market.entity.Category;
+import com.erasil_production.online_market.entity.Message;
 import com.erasil_production.online_market.entity.Order;
 import com.erasil_production.online_market.entity.Product;
 import com.erasil_production.online_market.services.CategoryService;
+import com.erasil_production.online_market.services.MessageService;
 import com.erasil_production.online_market.services.OrderService;
 import com.erasil_production.online_market.services.ProductService;
 
@@ -39,6 +41,9 @@ public class adminController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private MessageService messageService;
+
     @Value("${file.img.viewPath}")
     private String viewPath;
 
@@ -56,6 +61,13 @@ public class adminController {
         return ResponseEntity.ok(orders);
     }
 
+    @GetMapping("/getALLMessages")
+    @ResponseBody
+    public ResponseEntity<List<Message>> getAllMessages(){
+        List<Message> messages = messageService.getALlMessage();
+        return ResponseEntity.ok(messages);
+    }
+
     @GetMapping("/getOrder/{id}")
     @ResponseBody
     public ResponseEntity<OrderDTO> getOrder(@PathVariable(name = "id")Long id){
@@ -66,6 +78,15 @@ public class adminController {
         return ResponseEntity.ok(orderDTO);
     }
 
+    @GetMapping("/getMessage/{id}")
+    @ResponseBody
+    public ResponseEntity<MessageDTO> getMessage(@PathVariable(name = "id")Long id){
+        Message message = messageService.getMessage(id);
+        Date javaDate = new Date(message.getDate().getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        MessageDTO messageDTO = new MessageDTO(message.getId(), message.getTopic(), message.getText(), dateFormat.format(javaDate));
+        return ResponseEntity.ok(messageDTO);
+    }
 
     @PostMapping("/addNewCategory")
     @ResponseBody
@@ -83,9 +104,6 @@ public class adminController {
             }catch (Exception e){
                 e.printStackTrace();
             }
-
-
-
 
         return ResponseEntity.ok("New category added!");
     }
@@ -124,8 +142,6 @@ public class adminController {
 
         return ResponseEntity.ok("New product added!");
     }
-
-
 
     @DeleteMapping("/deleteCategory/{id}")
     @ResponseBody
@@ -190,10 +206,10 @@ public class adminController {
                 System.out.println("Image file not found");
             }
 
-            return ResponseEntity.ok("Category is deleted!");
+            return ResponseEntity.ok("Product is deleted!");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error deleting category");
+            return ResponseEntity.status(500).body("Error deleting product");
         }
 
     }
@@ -216,6 +232,26 @@ public class adminController {
         }
 
         return ResponseEntity.ok("Order is deleted!");
+
+    }
+
+    @DeleteMapping("/deleteMessage/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deleteMessage(@PathVariable(name = "id")Long id){
+
+        Message message = new Message();
+
+        try{
+            message = messageService.getMessage(id);
+            messageService.deleteMessage(message);
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+
+        }
+
+        return ResponseEntity.ok("Message is deleted!");
 
     }
 
