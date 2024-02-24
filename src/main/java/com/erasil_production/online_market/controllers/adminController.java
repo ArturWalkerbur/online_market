@@ -1,19 +1,15 @@
 package com.erasil_production.online_market.controllers;
 
 import com.erasil_production.online_market.dto.*;
-import com.erasil_production.online_market.entity.Category;
-import com.erasil_production.online_market.entity.Message;
-import com.erasil_production.online_market.entity.Order;
-import com.erasil_production.online_market.entity.Product;
-import com.erasil_production.online_market.services.CategoryService;
-import com.erasil_production.online_market.services.MessageService;
-import com.erasil_production.online_market.services.OrderService;
-import com.erasil_production.online_market.services.ProductService;
+import com.erasil_production.online_market.entity.*;
+import com.erasil_production.online_market.repository.UsersRepository;
+import com.erasil_production.online_market.services.*;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +25,7 @@ import java.util.List;
 
 @Controller
 @RestController
+@PreAuthorize("isAuthenticated()")
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "http://localhost:3000")
 public class adminController {
@@ -45,6 +42,12 @@ public class adminController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UsersRepository usersRepository;
+
+    @Autowired
+    UsersService usersService;
+
     @Value("${file.img.viewPath}")
     private String viewPath;
 
@@ -55,6 +58,21 @@ public class adminController {
     private String defaultPicture;
 
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/getUser")
+    public Users getUser(){
+        return usersService.getCurrentUser();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/update-password")
+    @ResponseBody
+    public ResponseEntity<String> updatePassword(@RequestBody UpdatePassword updatePassword){
+        usersService.updatePassword(updatePassword.getPassword(), updatePassword.getNewPassword(), updatePassword.getReNewPassword());
+        return ResponseEntity.ok("Password updated");
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/getAllOrders")
     @ResponseBody
     public ResponseEntity<List<Order>> getAllOrders(){
@@ -62,6 +80,7 @@ public class adminController {
         return ResponseEntity.ok(orders);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/getALLMessages")
     @ResponseBody
     public ResponseEntity<List<Message>> getAllMessages(){
@@ -69,6 +88,7 @@ public class adminController {
         return ResponseEntity.ok(messages);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/getOrder/{id}")
     @ResponseBody
     public ResponseEntity<OrderDTO> getOrder(@PathVariable(name = "id")Long id){
@@ -79,6 +99,7 @@ public class adminController {
         return ResponseEntity.ok(orderDTO);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/getMessage/{id}")
     @ResponseBody
     public ResponseEntity<MessageDTO> getMessage(@PathVariable(name = "id")Long id){
@@ -89,6 +110,7 @@ public class adminController {
         return ResponseEntity.ok(messageDTO);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/addNewCategory")
     @ResponseBody
     public ResponseEntity<String> addNewCategory(@RequestBody Category newCategory){
@@ -126,6 +148,7 @@ public class adminController {
         return ResponseEntity.ok("Success");
     }*/
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/addNewProduct")
     @ResponseBody
     public ResponseEntity<String> addNewProduct(@RequestBody ProductDTO newProduct){
@@ -144,6 +167,7 @@ public class adminController {
         return ResponseEntity.ok("New product added!");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/deleteCategory/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteCategory(@PathVariable(name = "id")Long id){
@@ -182,6 +206,7 @@ public class adminController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/deleteProduct/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteProduct(@PathVariable(name = "id")Long id){
@@ -218,6 +243,7 @@ public class adminController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/deleteOrder/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteOrder(@PathVariable(name = "id")Long id){
@@ -239,6 +265,7 @@ public class adminController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/deleteMessage/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteMessage(@PathVariable(name = "id")Long id){
@@ -260,6 +287,7 @@ public class adminController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/editCategory")
     @ResponseBody
     public ResponseEntity<String> editCategory(@RequestBody Category updateCategory){
@@ -306,6 +334,7 @@ public class adminController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/editProduct")
     @ResponseBody
     public ResponseEntity<String> editProduct(@RequestBody ProductDTO updateProduct){
@@ -352,6 +381,7 @@ public class adminController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/editOrder")
     @ResponseBody
     public ResponseEntity<String> editOrder(@RequestBody OrderDTO updateOrder){
