@@ -1,0 +1,29 @@
+.th-center th{
+   text-align: center;
+}
+
+.no-orders{
+   text-align: center;
+}
+
+.titleEdit{
+   width: 1100px;
+   text-align: center;
+}
+
+.overflow-container{
+   height: 700px;
+   overflow: auto;
+}
+
+.container2{
+   min-height: 500px;
+}
+
+.second-menu{
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   align-items: center;
+   vertical-align: center;
+}
