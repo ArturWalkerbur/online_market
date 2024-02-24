@@ -22,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -50,9 +52,6 @@ public class userController {
     @Value("${file.img.viewPath}")
     private String viewPath;
 
-    @Value("${file.img.uploadPath}")
-    private String uploadPath;
-
     @Value("${file.img.defaultPicture}")
     private String defaultPicture;
 
@@ -74,7 +73,6 @@ public class userController {
     @GetMapping("/getProductsByCategory/{name}")
     @ResponseBody
     public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable(name = "name")String name){
-        System.out.println(name);
         Category category = categoryService.getCategoryByName(name);
         List<Product> products = productService.getProductsByCategory(category);
         return ResponseEntity.ok(products);
@@ -143,14 +141,12 @@ public class userController {
 
         try{
 
-            System.out.println(url);
-
-            ClassPathResource resource = new ClassPathResource(imgURL);
-            in = resource.getInputStream();
+            File imgFile = new File(imgURL);
+            in = new FileInputStream(imgFile);
 
         }catch (Exception e){
-            ClassPathResource resource = new ClassPathResource(viewPath+defaultPicture);
-            in = resource.getInputStream();
+            File imgFile = new File(viewPath+defaultPicture);
+            in = new FileInputStream(imgFile);
 
             e.printStackTrace();
         }

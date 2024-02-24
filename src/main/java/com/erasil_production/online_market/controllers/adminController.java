@@ -30,6 +30,7 @@ import java.util.List;
 @Controller
 @RestController
 @RequestMapping("/api/admin")
+@CrossOrigin(origins = "http://localhost:3000")
 public class adminController {
 
     @Autowired
@@ -152,8 +153,10 @@ public class adminController {
         try {
             category = categoryService.getCategory(id);
 
+            categoryService.deleteCategory(category);
+
             // Получаем путь к изображению
-            String imagePath = "target/classes/static/imgs/" + category.getImg() + ".jpg";
+            String imagePath = uploadPath + category.getImg() + ".jpg";
 
             // Удаляем файл изображения
             File imageFile = new File(imagePath);
@@ -161,7 +164,6 @@ public class adminController {
 
                 if (imageFile.delete()) {
                     System.out.println("Image deleted successfully");
-                    categoryService.deleteCategory(category);
                 } else {
                     System.out.println("Failed to delete image");
                 }
@@ -171,6 +173,7 @@ public class adminController {
 
             return ResponseEntity.ok("Category is deleted!");
         } catch (Exception e) {
+            System.err.println("Ошибка при удалении файла: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error deleting category");
         }
@@ -189,8 +192,10 @@ public class adminController {
 
             product = productService.getProduct(id);
 
+            productService.deleteProduct(product);
+
             // Получаем путь к изображению
-            String imagePath = "target/classes/static/imgs/" + product.getImg() + ".jpg";
+            String imagePath = uploadPath + product.getImg() + ".jpg";
 
             // Удаляем файл изображения
             File imageFile = new File(imagePath);
@@ -198,7 +203,6 @@ public class adminController {
 
                 if (imageFile.delete()) {
                     System.out.println("Image deleted successfully");
-                    productService.deleteProduct(product);
                 } else {
                     System.out.println("Failed to delete image");
                 }
@@ -264,9 +268,9 @@ public class adminController {
 
             Category category = categoryService.getCategory(updateCategory.getId());
 
-            if(updateCategory.getImg() != null && !updateCategory.getImg().equals("")){
+            if(updateCategory.getImg() != null && !updateCategory.getImg().equals("") && !updateCategory.getImg().equals(category.getImg())){
 
-                String imagePath = "target/classes/static/imgs/" + category.getImg() + ".jpg";
+                String imagePath = uploadPath + category.getImg() + ".jpg";
 
                 File imageFile = new File(imagePath);
                 if (imageFile.exists()) {
@@ -310,9 +314,9 @@ public class adminController {
 
             Product product = productService.getProduct(updateProduct.getId());
 
-            if(updateProduct.getImg() != null && !updateProduct.getImg().equals("")){
+            if(updateProduct.getImg() != null && !updateProduct.getImg().equals("") && !updateProduct.getImg().equals(product.getImg())){
 
-                String imagePath = "target/classes/static/imgs/" + product.getImg() + ".jpg";
+                String imagePath = uploadPath + product.getImg() + ".jpg";
 
                 File imageFile = new File(imagePath);
                 if (imageFile.exists()) {
