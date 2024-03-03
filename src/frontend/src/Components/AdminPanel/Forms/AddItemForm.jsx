@@ -22,6 +22,7 @@ const AddItemForm = ({showAddToggle}) => {
       ...prev,
       [name]: value
     }));
+    console.log(localItem);
   };
 
   const handleClick = () => {
@@ -81,7 +82,7 @@ const AddItemForm = ({showAddToggle}) => {
           <div className="form-group">
             <label htmlFor="category">Категории</label>
             <select className="form-control" id="category" name="category_id" onChange={handleChange} required>
-              <option disabled value=""> -- Выберите категорию -- </option>
+              <option disabled selected value=""> -- Выберите категорию -- </option>
               {dataCatalog.map(category => (
                 <option key={category.id} value={category.id}>{category.name}</option>
               ))}

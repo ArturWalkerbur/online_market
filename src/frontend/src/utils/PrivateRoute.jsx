@@ -4,10 +4,9 @@ import {CustomContext} from "./Context";
 
 const PrivateRoute = () => {
 
-    const {isAdmin} = useContext(CustomContext);
+    const {getUserRole, isAuthenticated} = useContext(CustomContext);
 
-
-    return isAdmin ? <Outlet /> : <Navigate to="/" />;
+    return getUserRole() == "ADMIN" ? <Outlet /> : <Navigate to="/" />;
 }
 
 export default PrivateRoute;
